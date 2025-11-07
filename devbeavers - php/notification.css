@@ -1,0 +1,331 @@
+/* notification.css - Sistema de notificações moderno */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 400px;
+}
+
+.notification {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-left: 5px solid;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification.hide {
+    transform: translateX(400px);
+    opacity: 0;
+}
+
+.notification::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+}
+
+.notification-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-family: "B612", sans-serif;
+}
+
+.notification-message {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+    font-family: "B612", sans-serif;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.notification-close:hover {
+    color: #666;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Tipos de notificação */
+.notification-success {
+    border-left-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.notification-error {
+    border-left-color: #f44336;
+    color: #f44336;
+}
+
+.notification-warning {
+    border-left-color: #FF9800;
+    color: #FF9800;
+}
+
+.notification-info {
+    border-left-color: #2196F3;
+    color: #2196F3;
+}
+
+/* Progress bar para auto-remover */
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+    width: 100%;
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 5s linear;
+}
+
+.notification-progress.hide {
+    transform: scaleX(0);
+}
+
+/* Confirmation System Styles */
+.confirmation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
+    pointer-events: none;
+}
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: all;
+}
+
+.confirmation-overlay.show {
+    opacity: 1;
+}
+
+.confirmation-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 0;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: all;
+    overflow: hidden;
+}
+
+.confirmation-modal.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.confirmation-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 25px 25px 15px 25px;
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+}
+
+.confirmation-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.confirmation-title {
+    font-family: "B612", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+}
+
+.confirmation-message {
+    padding: 20px 25px;
+    font-family: "B612", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 12px;
+    padding: 20px 25px;
+    justify-content: flex-end;
+}
+
+.confirmation-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: "B612", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+.confirmation-btn-cancel {
+    background: #f8f9fa;
+    color: #666;
+    border: 2px solid #e9ecef;
+}
+
+.confirmation-btn-cancel:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+}
+
+.confirmation-btn-confirm {
+    background: linear-gradient(135deg, #F78008 0%, #ffae42 100%);
+    color: white;
+    border: 2px solid #F78008;
+}
+
+.confirmation-btn-confirm:hover {
+    background: linear-gradient(135deg, #e67200 0%, #e69c00 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(247, 128, 8, 0.3);
+}
+
+/* Estilo para confirmações perigosas (exclusão) */
+.confirmation-modal.danger .confirmation-header {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border-bottom: 3px solid #f44336;
+}
+
+.confirmation-modal.danger .confirmation-icon {
+    color: #f44336;
+}
+
+.confirmation-modal.danger .confirmation-btn-confirm {
+    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    border: 2px solid #f44336;
+    color: white;
+}
+
+.confirmation-modal.danger .confirmation-btn-confirm:hover {
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .notification-container {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .notification {
+        padding: 15px;
+    }
+    
+    .confirmation-buttons {
+        flex-direction: column-reverse;
+    }
+    
+    .confirmation-btn {
+        width: 100%;
+    }
+    
+    .confirmation-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .confirmation-icon {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmation-modal {
+        width: 95%;
+        margin: 10px;
+    }
+}
+
+/* Animações */
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}

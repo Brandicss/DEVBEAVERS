@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos - DevBeaver</title>
+    <link rel="stylesheet" href="curso.css">
+    <link rel="stylesheet" href="notification.css">
+    <link rel="shortcut icon" href="imagens_tamanho_certo/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=B612:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        
+        .course-card-form {
+            display: contents;
+        }
+        
+        .course-card-form .course-button {
+            width: 100%;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .html-gradient {
+            background: linear-gradient(135deg, #F78008 0%, #ffae42 100%) !important;
+        }
+
+        .css-gradient {
+            background: linear-gradient(135deg, #264de4 0%, #2965f1 100%) !important;
+        }
+
+        .logica-gradient {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%) !important;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="inicio.html">
+                <img class="logo" src="imagens_tamanho_certo/devbeavers-removebg-preview.png" alt="DevBeavers">
+            </a>
+            <nav class="navigation">
+                <a href="inicio.html">Início</a>
+                <a href="curso.html" class="active">Cursos</a>
+                <a href="tela-inicial.php">Área do Aluno</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Escolha seu curso</h1>
+                <p>Selecione uma das opções abaixo para começar sua jornada na programação</p>
+            </div>
+
+            <div class="courses-grid">
+                <!-- Curso HTML -->
+                <form action="acoes.php" method="POST" class="course-card-form">
+                    <div class="course-card">
+                        <div class="course-icon html-gradient">
+                            <img src="img/htmllogo.png" alt="HTML" style="filter: brightness(0) invert(1);">
+                        </div>
+                        <div class="course-content">
+                            <h3 style="color: #F78008;">HTML para Iniciantes</h3>
+                            <p>Aprenda a estrutura básica de páginas web com HTML. Domine tags, links, imagens e crie sua primeira página web!</p>
+                            <ul class="course-features">
+                                <li><i class="bi bi-check-circle" style="color: #F78008;"></i> 5 módulos interativos</li>
+                                <li><i class="bi bi-check-circle" style="color: #F78008;"></i> Tags e elementos HTML</li>
+                                <li><i class="bi bi-check-circle" style="color: #F78008;"></i> Links e imagens</li>
+                                <li><i class="bi bi-check-circle" style="color: #F78008;"></i> Listas e tabelas</li>
+                                <li><i class="bi bi-check-circle" style="color: #F78008;"></i> Formulários e semântica</li>
+                            </ul>
+                            <button type="submit" name="escolher_curso" value="html" class="course-button" style="background-color: #F78008;">
+                                Começar Curso HTML
+                            </button>
+                            <input type="hidden" name="curso" value="html">
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Curso CSS -->
+                <form action="acoes.php" method="POST" class="course-card-form">
+                    <div class="course-card">
+                        <div class="course-icon css-gradient">
+                            <img src="img/csslogo.png" alt="CSS" style="filter: brightness(0) invert(1);">
+                        </div>
+                        <div class="course-content">
+                            <h3 style="color: #264de4;">CSS - Estilização Web</h3>
+                            <p>Domine a arte de estilizar páginas web e criar layouts responsivos com CSS. Aprenda seletores, propriedades, Flexbox, Grid e muito mais!</p>
+                            <ul class="course-features">
+                                <li><i class="bi bi-check-circle" style="color: #264de4;"></i> 5 módulos interativos</li>
+                                <li><i class="bi bi-check-circle" style="color: #264de4;"></i> Seletores e propriedades CSS</li>
+                                <li><i class="bi bi-check-circle" style="color: #264de4;"></i> Flexbox e Grid Layout</li>
+                                <li><i class="bi bi-check-circle" style="color: #264de4;"></i> Design responsivo</li>
+                                <li><i class="bi bi-check-circle" style="color: #264de4;"></i> Animações e transições</li>
+                            </ul>
+                            <button type="submit" name="escolher_curso" value="css" class="course-button" style="background-color: #264de4;">
+                                Começar Curso CSS
+                            </button>
+                            <input type="hidden" name="curso" value="css">
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Curso Lógica -->
+                <form action="acoes.php" method="POST" class="course-card-form">
+                    <div class="course-card">
+                        <div class="course-icon logica-gradient">
+                            <img src="img/lgclogo.png" alt="Lógica de Programação" style="filter: brightness(0) invert(1);">
+                        </div>
+                        <div class="course-content">
+                            <h3 style="color: #8e44ad;">Lógica de Programação</h3>
+                            <p>Desenvolva seu pensamento computacional e a base para aprender qualquer linguagem. Domine algoritmos, variáveis e estruturas de controle!</p>
+                            <ul class="course-features">
+                                <li><i class="bi bi-check-circle" style="color: #8e44ad;"></i> 5 módulos interativos</li>
+                                <li><i class="bi bi-check-circle" style="color: #8e44ad;"></i> Algoritmos e pseudocódigo</li>
+                                <li><i class="bi bi-check-circle" style="color: #8e44ad;"></i> Estruturas de controle</li>
+                                <li><i class="bi bi-check-circle" style="color: #8e44ad;"></i> Variáveis e operadores</li>
+                                <li><i class="bi bi-check-circle" style="color: #8e44ad;"></i> Resolução de problemas</li>
+                            </ul>
+                            <button type="submit" name="escolher_curso" value="logica" class="course-button" style="background-color: #8e44ad;">
+                                Começar Curso Lógica
+                            </button>
+                            <input type="hidden" name="curso" value="logica">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="castor-container">
+                <img src="img/pensativo-removebg-preview.png" alt="Castor Pensativo" class="castor-image">
+                <div class="castor-message">
+                    <h3>Qual você quer aprender primeiro?</h3>
+                    <p>Recomendamos começar pelo HTML, que é a base para criar sites! Mas você pode escolher qualquer um que preferir.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="imagens_tamanho_certo/devbeavers.png" alt="DevBeavers" height="40">
+                    <p>Ensinando programação de forma divertida e acessível</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="inicio.html">Início</a></li>
+                        <li><a href="curso.html">Cursos</a></li>
+                        <li><a href="cadastro.html">Cadastre-se</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contato</h3>
+                    <p>email@devbeavers.com</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 DevBeavers. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="notification.js"></script>
+</body>
+</html>

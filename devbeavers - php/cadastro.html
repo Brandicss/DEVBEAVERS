@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - DevBeaver</title>
+    <link rel="stylesheet" href="cadastro.css">
+    <link rel="shortcut icon" href="imagens_tamanho_certo/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=B612:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #F78008;
+        }
+        
+        .terms input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+        
+        .terms label {
+            font-weight: 400;
+            color: var(--text-color);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal de Termos */
+        .terms-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .terms-modal-overlay.show {
+            display: flex;
+        }
+
+        .terms-modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .terms-modal-header {
+            background: linear-gradient(135deg, #F78008 0%, #ffae42 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .terms-modal-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .terms-modal-header h2 {
+            flex: 1;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .terms-modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .terms-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .terms-modal-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            max-height: 400px;
+        }
+
+        .terms-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #F78008;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .terms-section h3 {
+            color: #F78008;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-section p {
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .terms-modal-footer {
+            padding: 25px 30px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .terms-acceptance {
+            margin-bottom: 20px;
+        }
+
+        .terms-acceptance label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .terms-acceptance label:hover {
+            background: #e9ecef;
+        }
+
+        .terms-acceptance input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkmark {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .terms-acceptance input[type="checkbox"]:checked + label .checkmark {
+            background: #F78008;
+            border-color: #F78008;
+        }
+
+        .terms-acceptance input[type="checkbox"]:checked + label .checkmark::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .terms-modal-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .terms-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: "B612", sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .terms-btn-primary {
+            background: linear-gradient(135deg, #F78008 0%, #ffae42 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(247, 128, 8, 0.3);
+        }
+
+        .terms-btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(247, 128, 8, 0.4);
+        }
+
+        .terms-btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .terms-btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+
+        .terms-btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .terms-modal {
+                margin: 10px;
+                max-height: 95vh;
+            }
+            
+            .terms-modal-header {
+                padding: 20px;
+            }
+            
+            .terms-modal-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .terms-modal-content {
+                padding: 20px;
+            }
+            
+            .terms-modal-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <div class="container">
+            <div class="castor-container">
+                <img class="olhofechado show" id="olhofechado" src="imagens_tamanho_certo/olhofechado.png" alt="Castor com olhos fechados">
+                <img class="olhoaberto hide" id="olhoaberto" src="imagens_tamanho_certo/castoraberto-removebg-preview.png" alt="Castor com olhos abertos">
+            </div>
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Criar Conta</h1>
+                    <p>Junte-se à comunidade DevBeaver e comece sua jornada na programação</p>
+                </div>
+                <form class="login-form" action="acoes.php" method="POST">
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="seu@email.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="nome">Nome de Usuário</label>
+                        <input type="text" id="nome" name="nome" class="form-input" placeholder="seu nome de usuário" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="senha">Senha</label>
+                        <div class="password-container">
+                            <input type="password" id="senha" name="senha" class="form-input" placeholder="mínimo 6 caracteres" required minlength="6">
+                            <i class="bi bi-eye-fill" id="btn-senha" onclick="mostrarSenha()"></i>
+                        </div>
+                    </div>
+
+                    <div class="terms">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">
+                            Aceito os <a href="#" onclick="mostrarTermsModal(); return false;">termos e condições</a> de uso da plataforma DevBeaver
+                        </label>
+                    </div>
+
+                    <button type="submit" name="create_usuario" class="submit-button">Criar Conta</button>
+
+                    <div class="login-redirect">
+                        <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Termos e Condições -->
+    <div id="termsModal" class="terms-modal-overlay">
+        <div class="terms-modal">
+            <div class="terms-modal-header">
+                <div class="terms-modal-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h2>Termos e Condições</h2>
+                <button class="terms-modal-close" onclick="fecharTermsModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="terms-modal-content">
+                <div class="terms-section">
+                    <h3><i class="bi bi-person-check"></i> 1. Aceitação dos Termos</h3>
+                    <p>Ao criar uma conta na DevBeaver, você concorda com estes termos e condições. Recomendamos que leia atentamente.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3><i class="bi bi-lock"></i> 2. Privacidade e Dados</h3>
+                    <p>Seus dados pessoais são protegidos e usados apenas para melhorar sua experiência educacional. Não compartilhamos suas informações com terceiros.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3><i class="bi bi-book"></i> 3. Uso Educacional</h3>
+                    <p>A plataforma é destinada exclusivamente para fins educacionais. O conteúdo é protegido por direitos autorais.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3><i class="bi bi-graph-up"></i> 4. Progresso e Conquistas</h3>
+                    <p>Seu progresso nos cursos é salvo automaticamente. As estrelas e conquistas são baseadas no seu desempenho.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3><i class="bi bi-exclamation-triangle"></i> 5. Responsabilidades</h3>
+                    <p>Você é responsável por manter sua senha segura e por todo o conteúdo que publicar na plataforma.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3><i class="bi bi-heart"></i> 6. Comunidade</h3>
+                    <p>Promovemos um ambiente respeitoso e colaborativo. Qualquer comportamento inadequado pode resultar na suspensão da conta.</p>
+                </div>
+            </div>
+            
+            <div class="terms-modal-footer">
+                <div class="terms-acceptance">
+                    <input type="checkbox" id="modalTermsCheckbox">
+                    <label for="modalTermsCheckbox">
+                        <span class="checkmark"></span>
+                        Li e aceito os termos e condições acima
+                    </label>
+                </div>
+                
+                <div class="terms-modal-buttons">
+                    <button class="terms-btn terms-btn-secondary" onclick="fecharTermsModal()">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </button>
+                    <button class="terms-btn terms-btn-primary" onclick="aceitarTerms()" id="btnAceitarTerms" disabled>
+                        <i class="bi bi-check-lg"></i> Aceitar e Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="imagens_tamanho_certo/devbeavers.png" alt="DevBeavers" height="40">
+                    <p>Ensinando programação de forma divertida e acessível</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="inicio.html">Início</a></li>
+                        <li><a href="curso.html">Cursos</a></li>
+                        <li><a href="cadastro.html">Cadastre-se</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contato</h3>
+                    <p>devbeavers@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 DevBeavers. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="login.js"></script>
+    <script src="notification.js"></script>
+    <link rel="stylesheet" href="notification.css">
+
+    <script>
+        // Funções para controlar o modal de termos
+        function mostrarTermsModal() {
+            document.getElementById('termsModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharTermsModal() {
+            document.getElementById('termsModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function aceitarTerms() {
+            // Marca o checkbox da tela de cadastro
+            document.getElementById('terms').checked = true;
+            fecharTermsModal();
+            
+            // Mostra notificação de sucesso
+            window.notification.success(
+                'Termos Aceitos!',
+                'Você aceitou os termos e condições. Agora pode criar sua conta.',
+                4000
+            );
+        }
+
+        // Configurar eventos quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Controlar botão de aceitar no modal
+            const modalCheckbox = document.getElementById('modalTermsCheckbox');
+            const btnAceitar = document.getElementById('btnAceitarTerms');
+            
+            if (modalCheckbox && btnAceitar) {
+                modalCheckbox.addEventListener('change', function() {
+                    btnAceitar.disabled = !this.checked;
+                });
+            }
+
+            // Fechar modal com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharTermsModal();
+                }
+            });
+
+            // Fechar modal clicando fora
+            document.getElementById('termsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharTermsModal();
+                }
+            });
+        });
+
+        // Validação do formulário de cadastro
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.login-form');
+            
+            form.addEventListener('submit', function(e) {
+                const senha = document.getElementById('senha');
+                const terms = document.getElementById('terms');
+                
+                if (senha.value.length < 6) {
+                    e.preventDefault();
+                    window.notification.warning(
+                        'Senha Fraca',
+                        'A senha deve ter pelo menos 6 caracteres.',
+                        4000
+                    );
+                    senha.focus();
+                    return;
+                }
+                
+                if (!terms.checked) {
+                    e.preventDefault();
+                    window.notification.warning(
+                        'Termos e Condições',
+                        'Você deve aceitar os termos e condições.',
+                        4000
+                    );
+                    return;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

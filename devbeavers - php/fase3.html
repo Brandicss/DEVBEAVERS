@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="questao1.css">
+  <link rel="stylesheet" href="notification.css">
+  <link href="https://fonts.googleapis.com/css2?family=B612:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Quiz HTML - Fase 3</title>
+</head>
+<body>
+  <header class="quiz-header">
+    <div class="header-pattern"></div>
+    <div class="header-content">
+      <div class="logo-container">
+        <div class="logo-icon">❓</div>
+        <h1 class="logo-text">Quiz<span> HTML - Fase 3</span></h1>
+      </div>
+      <div class="header-details">
+        <div class="score-display">Pontuação: 0</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    </div>
+    <div class="progress-text" id="progress-text">Pergunta 0 de 5</div>
+    
+    <div class="questions-container hide">
+      <span class="question">Pergunta aqui?</span>
+      <div class="answers-container">
+        <button class="answer button">Resposta 1</button>
+        <button class="answer button">Resposta 2</button>
+        <button class="answer button">Resposta 3</button>
+        <button class="answer button">Resposta 4</button>
+      </div>
+    </div>
+    <div class="controls-container"><br>
+      <button class="start-quiz button"><i class="fas fa-play"></i> Começar Quiz!</button>
+      <button class="next-question button hide">Próxima pergunta <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <footer class="quiz-footer">
+    <div class="footer-content">
+      <p>© 2025 Quiz HTML - Fase 3 - Formulários</p>
+      <div class="footer-links">
+        <a href="tela-inicial.php"><i class="fas fa-home"></i> Voltar ao Início</a>
+        <a href="#"><i class="fas fa-question-circle"></i> Ajuda</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contato</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const $startGameButton = document.querySelector(".start-quiz")
+    const $nextQuestionButton = document.querySelector(".next-question")
+    const $questionsContainer = document.querySelector(".questions-container")
+    const $questionText = document.querySelector(".question")
+    const $answersContainer = document.querySelector(".answers-container")
+    const $answers = document.querySelectorAll(".answer")
+    const $scoreDisplay = document.querySelector(".score-display")
+    const $progressBar = document.getElementById("progress-bar")
+    const $progressText = document.getElementById("progress-text")
+
+    let currentQuestionIndex = 0
+    let totalCorrect = 0
+    let estrelasGanhas = 0
+    let performance = 0
+
+    $startGameButton.addEventListener("click", startGame)
+    $nextQuestionButton.addEventListener("click", displayNextQuestion)
+
+    function startGame() {
+      $startGameButton.classList.add("hide")
+      $questionsContainer.classList.remove("hide")
+      totalCorrect = 0
+      currentQuestionIndex = 0
+      updateScore()
+      updateProgress()
+      displayNextQuestion()
+    }
+
+    function displayNextQuestion() {
+      resetState()
+      
+      if (questions.length === currentQuestionIndex) {
+        return finishGame()
+      }
+
+      $questionText.textContent = questions[currentQuestionIndex].question
+      questions[currentQuestionIndex].answers.forEach(answer => {
+        const newAnswer = document.createElement("button")
+        newAnswer.classList.add("button", "answer")
+        newAnswer.textContent = answer.text
+        if (answer.correct) {
+          newAnswer.dataset.correct = answer.correct
+        }
+        $answersContainer.appendChild(newAnswer)
+
+        newAnswer.addEventListener("click", selectAnswer)
+      })
+      
+      updateProgress()
+    }
+
+    function resetState() {
+      while($answersContainer.firstChild) {
+        $answersContainer.removeChild($answersContainer.firstChild)
+      }
+
+      document.body.removeAttribute("class")
+      $nextQuestionButton.classList.add("hide")
+    }
+
+    function selectAnswer(event) {
+      const answerClicked = event.target
+
+      if (answerClicked.dataset.correct) {
+        document.body.classList.add("correct")
+        totalCorrect++
+        updateScore()
+      } else {
+        document.body.classList.add("incorrect") 
+      }
+
+      document.querySelectorAll(".answer").forEach(button => {
+        button.disabled = true
+
+        if (button.dataset.correct) {
+          button.classList.add("correct")
+        } else {
+          button.classList.add("incorrect")
+        }
+      })
+      
+      $nextQuestionButton.classList.remove("hide")
+      currentQuestionIndex++
+    }
+
+    function updateScore() {
+      $scoreDisplay.textContent = `Pontuação: ${totalCorrect}`
+    }
+
+    function updateProgress() {
+      const progress = ((currentQuestionIndex) / questions.length) * 100
+      $progressBar.style.width = `${progress}%`
+      $progressText.textContent = `Pergunta ${currentQuestionIndex + 1} de ${questions.length}`
+    }
+
+    function finishGame() {
+      const totalQuestions = questions.length
+      performance = Math.floor(totalCorrect * 100 / totalQuestions)
+      
+      let message = ""
+      let emoji = ""
+      estrelasGanhas = 0
+
+      switch (true) {
+        case (performance >= 90):
+          message = "Excelente! 🎉"
+          emoji = "🥇"
+          estrelasGanhas = 3
+          break
+        case (performance >= 70):
+          message = "Muito bom! 👍"
+          emoji = "🥈"
+          estrelasGanhas = 2
+          break
+        case (performance >= 50):
+          message = "Bom! 🙂"
+          emoji = "🥉"
+          estrelasGanhas = 1
+          break
+        default:
+          message = "Pode melhorar! 💪"
+          emoji = "📚"
+          estrelasGanhas = 0
+      }
+
+      $questionsContainer.innerHTML = 
+      `
+        <p class="final-message">
+          ${emoji} Você acertou ${totalCorrect} de ${totalQuestions} questões! ${emoji}
+          <span>${message}</span>
+          ${estrelasGanhas > 0 ? `<br><small>Você ganhou ${estrelasGanhas} estrela(s) de desempenho!</small>` : ''}
+        </p>
+        <div class="final-buttons">
+          <button 
+            onclick="salvarEVoltar()" 
+            class="button"
+          >
+            <i class="fas fa-save"></i> Salvar e Voltar ao Início
+          </button>
+
+          <button 
+            onclick="salvarEProximaFase()" 
+            class="button"
+            id="btn-proxima-fase"
+          >
+            <i class="fas fa-arrow-right"></i> Salvar e Próxima Fase
+          </button>
+
+          <button 
+            onclick="window.location.reload()" 
+            class="button"
+          >
+            <i class="fas fa-redo"></i> Refazer Teste
+          </button>
+        </div>
+        <div id="mensagem-salvamento" style="margin-top: 15px; text-align: center;"></div>
+      `
+    }
+
+    // Função para salvar e voltar ao início
+    function salvarEVoltar() {
+        const faseAtual = 3;
+        salvarProgresso(faseAtual, true);
+    }
+
+    // Função para salvar e ir para próxima fase
+    function salvarEProximaFase() {
+        const faseAtual = 3;
+        salvarProgresso(faseAtual, false);
+    }
+
+// FUNÇÃO ATUALIZADA - Corrige problemas de conexão
+function salvarProgresso(faseAtual, voltarInicio) {
+    const mensagemDiv = document.getElementById('mensagem-salvamento');
+    const botoes = document.querySelectorAll('.final-buttons .button');
+    
+    botoes.forEach(btn => btn.disabled = true);
+    mensagemDiv.innerHTML = '<small style="color: #666;">🔄 Salvando progresso...</small>';
+    
+    // Determinar o curso atual baseado na URL de forma mais precisa
+    let curso = 'html';
+    const url = window.location.href;
+    const filename = window.location.pathname.split('/').pop();
+    
+    console.log('Arquivo atual:', filename);
+    
+    if (filename.includes('-css.')) {
+        curso = 'css';
+    } else if (filename.includes('-logica.')) {
+        curso = 'logica';
+    }
+    
+    // Método alternativo: verificar pelo nome do arquivo
+    if (filename.startsWith('fase') && filename.includes('-')) {
+        const match = filename.match(/fase\d+-(\w+)\.html/);
+        if (match && match[1]) {
+            curso = match[1];
+        }
+    }
+    
+    console.log('Curso detectado:', curso, 'Fase:', faseAtual, 'Estrelas:', estrelasGanhas);
+    
+    // URL CORRETA para a requisição
+    const urlRequisicao = `salvar-progresso.php?curso=${curso}&fase_concluida=${faseAtual}&estrelas=${estrelasGanhas}`;
+    console.log('Fazendo requisição para:', urlRequisicao);
+    
+    fetch(urlRequisicao)
+        .then(response => {
+            console.log('Status da resposta:', response.status, response.ok);
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Resposta do servidor:', data);
+            
+            if (data.success) {
+                mensagemDiv.innerHTML = '<small style="color: #4CAF50;">✅ Progresso salvo com sucesso!</small>';
+                
+                setTimeout(() => {
+                    if (voltarInicio) {
+                        window.location.href = `tela-inicial.php?estrelas_atualizadas=${data.novas_estrelas}&curso=${curso}&fase=${faseAtual}`;
+                    } else {
+                        const proximaFase = faseAtual + 1;
+                        if (proximaFase <= 5) {
+                            if (curso === 'html') {
+                                window.location.href = `fase${proximaFase}.html`;
+                            } else {
+                                window.location.href = `fase${proximaFase}-${curso}.html`;
+                            }
+                        } else {
+                            // Última fase concluída
+                            window.location.href = `tela-inicial.php?curso_concluido=${curso}`;
+                        }
+                    }
+                }, 1000);
+            } else {
+                mensagemDiv.innerHTML = `<small style="color: #f44336;">❌ Erro: ${data.message}</small>`;
+                botoes.forEach(btn => btn.disabled = false);
+            }
+        })
+        .catch(error => {
+            console.error('Erro na requisição:', error);
+            mensagemDiv.innerHTML = '<small style="color: #f44336;">❌ Erro de conexão. Tentando redirecionar...</small>';
+            
+            // FALLBACK: Redirecionar mesmo com erro após 2 segundos
+            setTimeout(() => {
+                if (voltarInicio) {
+                    window.location.href = `tela-inicial.php?curso=${curso}&erro_salvamento=1`;
+                } else {
+                    const proximaFase = faseAtual + 1;
+                    if (proximaFase <= 5) {
+                        window.location.href = curso === 'html' 
+                            ? `fase${proximaFase}.html` 
+                            : `fase${proximaFase}-${curso}.html`;
+                    } else {
+                        window.location.href = `tela-inicial.php?curso=${curso}`;
+                    }
+                }
+            }, 2000);
+        });
+}
+
+    const questions = [
+      {
+        question: "Qual tag é usada para criar um formulário em HTML?",
+        answers: [
+          { text: "<form>", correct: true },
+          { text: "<input>", correct: false },
+          { text: "<submit>", correct: false },
+          { text: "<fieldset>", correct: false }
+        ]
+      },
+      {
+        question: "Qual atributo define o método de envio do formulário?",
+        answers: [
+          { text: "action", correct: false },
+          { text: "method", correct: true },
+          { text: "type", correct: false },
+          { text: "name", correct: false }
+        ]
+      },
+      {
+        question: "Qual input é usado para campos de senha?",
+        answers: [
+          { text: "<input type='text'>", correct: false },
+          { text: "<input type='password'>", correct: true },
+          { text: "<input type='hidden'>", correct: false },
+          { text: "<input type='email'>", correct: false }
+        ]
+      },
+      {
+        question: "Qual tag é usada para criar uma caixa de seleção (checkbox)?",
+        answers: [
+          { text: "<input type='radio'>", correct: false },
+          { text: "<input type='checkbox'>", correct: true },
+          { text: "<select>", correct: false },
+          { text: "<option>", correct: false }
+        ]
+      },
+      {
+        question: "Qual tag cria um botão de envio em um formulário?",
+        answers: [
+          { text: "<button type='submit'>", correct: true },
+          { text: "<input type='button'>", correct: false },
+          { text: "<submit>", correct: false },
+          { text: "<send>", correct: false }
+        ]
+      }
+    ]
+  </script>
+  <script src="notification.js"></script>
+</body>
+</html>
